@@ -1,0 +1,15 @@
+.env
+.env.local
+*.env
+
+# deps
+node_modules/
+.next/
+
+# docker volumes
+postgres_data/
+redis_data/
+
+# misc
+.DS_Store
+*.log
