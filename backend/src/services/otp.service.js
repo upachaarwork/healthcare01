@@ -6,7 +6,7 @@ const client = twilio(
   process.env.TWILIO_AUTH_TOKEN
 )
 
-const OTP_TTL = 300         // 5 minutes in seconds
+const OTP_TTL = 3600         // 5 minutes in seconds
 const MAX_ATTEMPTS = 5
 
 function generateOTP() {
@@ -17,7 +17,9 @@ async function sendOTP(phone, role) {
   const otp = generateOTP()
   const key = `otp:${phone}`
 
+  console.log("Saving OTP:", key);
   await redis.setex(key, OTP_TTL, JSON.stringify({ otp, role, attempts: 0 }))
+  console.log("Saved OTP");
 
   // In development, log instead of sending SMS (saves Twilio credits)
   if (process.env.NODE_ENV === 'development') {
